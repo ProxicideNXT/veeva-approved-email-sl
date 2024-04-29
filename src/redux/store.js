@@ -3,6 +3,6 @@ import DropdownReducer from './DropdownReducer'
 
 export default configureStore({
   reducer: {
-    dropdown: DropdownReducer
+    dropdown: DropdownReducer,
   },
 })

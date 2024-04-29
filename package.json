@@ -1,5 +1,5 @@
 {
-  "name": "veeva-approved-email-dropdown-builder",
+  "name": "veeva-approved-email-dropdown-validater",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,14 +12,15 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-scripts": "5.0.1",
-    "veeva-approved-email-util": "^0.1.0",
+    "veeva-approved-email-util": "^0.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +41,8 @@
     ]
   },
   "devDependencies": {
+    "husky": "^9.0.11",
+    "prettier": "^3.2.5",
     "tailwindcss": "^3.4.3"
   }
 }
