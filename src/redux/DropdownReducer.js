@@ -79,7 +79,6 @@ export const dropdownReducer = createSlice({
         error: {},
       })
       state.veevaToken = buildDropdownToken(state.options)
-      // vaeUtil.buildDropdownToken(state.options)
     },
     removeDropdownOption: (state, action) => {
       state.options.splice(action.payload, 1)
