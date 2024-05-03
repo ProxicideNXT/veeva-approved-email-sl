@@ -13,7 +13,7 @@ export const SubjectLineForm = (props) => {
   return (
     <>
       <textarea
-        className="border-2 border-black border-solid p-[15px] w-full h-full"
+        className="resize-none bg-[#000000] border-2 border-black border-solid p-[15px] w-full h-full text-[#c1c1c1] outline-[#F2613F]"
         placeholder="Veeva dropdown token"
         name="veeva-dropdown"
         value={veevaToken}

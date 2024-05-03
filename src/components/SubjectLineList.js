@@ -20,7 +20,7 @@ export const SubjectLineList = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <button
-        className="rounded-md	bg-[#008fd2] text-white p-[15px] mb-[15px]"
+        className="rounded-md	bg-[#008fd2] text-white p-[15px] mb-[15px] outline-[#F2613F]"
         onClick={onAddSubjectLine}
       >
         Add option
