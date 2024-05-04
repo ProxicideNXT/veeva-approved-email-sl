@@ -1,4 +1,4 @@
-# Veeva Approved Email Dropdown Builder
+# Veeva Approved Email Dropdown Validater
 
 Primarily this repo contains the source code for a [website](https://veeva-approved-email-dropdown-validater.onrender.com) that allows users to create and modify Veeva approved email dropdown options. And more importantly validates them to ensure copywriters and designers are following the Veeva guidelines when using dropdowns.
 

@@ -30,11 +30,24 @@ const getDropdownOptions = (veevaToken) => {
   return dropdownOptions
 }
 
+const getURLParams = (url) => {
+  const searchParams = new URLSearchParams(url.search);
+  const params = {};
+
+  for (const [key, value] of searchParams) {
+    params[key] = value;
+  }
+
+  return params;
+}
+
+const queryParams = getURLParams(new URL(window.location.href));
+
 export const dropdownReducer = createSlice({
   name: 'DropdownOptions',
   initialState: {
-    veevaToken: '{{customText[]}}',
-    options: [],
+    veevaToken: !queryParams.token ? '{{customText[]}}' : queryParams.token,
+    options: !queryParams.token ? [] : getDropdownOptions(queryParams.token),
   },
   reducers: {
     setVeevaToken: (state, action) => {
