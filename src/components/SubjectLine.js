@@ -53,7 +53,7 @@ export const SubjectLine = (props) => {
               onChange={onDropdownOptionChanged}
             />
 
-            <section className="text-[#CF6679]">
+            <section className={options[props.index].error.grade === "WARNING" ? "text-[#cf9c66]" : "text-[#CF6679]"}>
               {options[props.index].error.message}
             </section>
 
