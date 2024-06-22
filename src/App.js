@@ -1,19 +1,20 @@
 import './App.css'
-import { SubjectLineForm } from './components/SubjectLineForm'
-import { SubjectLineList } from './components/SubjectLineList'
+import { Header } from './components/Header'
+import { DropdownForm } from './components/DropdownForm'
+import { DropdownList } from './components/DropdownList'
 
 function App() {
   return (
-    <div className="App relative bg-[#1e1e1e]">
-      <header className="App-header"></header>
+    <div className="relative bg-[#1e1e1e]">
+      <Header />
 
-      <div className="grid md:grid-cols-2 h-screen">
+      <div className="grid mt-[50px] md:grid-cols-2 h-screen">
         <section className="col-span-1 bg-[#1e1e1e] p-[20px]">
-          <SubjectLineList></SubjectLineList>
+          <DropdownList></DropdownList>
         </section>
 
-        <section className="col-span-1 md:fixed md:right-0 md:top-0 md:w-3/6 md:h-screen">
-          <SubjectLineForm></SubjectLineForm>
+        <section className="col-span-1">
+          <DropdownForm></DropdownForm>
         </section>
       </div>
     </div>

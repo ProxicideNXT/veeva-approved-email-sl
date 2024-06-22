@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import { SubjectLine } from './SubjectLine'
-import { sortDropdown, addDropdownOption } from '../redux/DropdownReducer'
+import { DropdownOption } from './DropdownOption'
+import { sortDropdown } from '../redux/DropdownReducer'
 
-export const SubjectLineList = () => {
+export const DropdownList = () => {
   const { options } = useSelector((state) => state.dropdown)
   const dispatch = useDispatch()
 
@@ -13,28 +13,16 @@ export const SubjectLineList = () => {
     dispatch(sortDropdown(result))
   }
 
-  const onAddSubjectLine = (e) => {
-    dispatch(addDropdownOption())
-  }
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <button
-        className="rounded-md	bg-[#008fd2] text-white p-[15px] mb-[15px] outline-[#F2613F]"
-        onClick={onAddSubjectLine}
-      >
-        Add option
-      </button>
-
       <Droppable droppableId="SL">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {options.map((option, index) => (
-              <SubjectLine
+              <DropdownOption
                 key={index}
                 index={index}
-                text={option}
-              ></SubjectLine>
+                text={option} />
             ))}
             {provided.placeholder}
           </div>

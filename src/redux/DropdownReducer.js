@@ -43,12 +43,14 @@ const getURLParams = (url) => {
 
 const queryParams = getURLParams(new URL(window.location.href));
 
+const initialState = {
+  veevaToken: !queryParams.token ? '{{customText[]}}' : queryParams.token,
+  options: !queryParams.token ? [] : getDropdownOptions(queryParams.token),
+}
+
 export const dropdownReducer = createSlice({
   name: 'DropdownOptions',
-  initialState: {
-    veevaToken: !queryParams.token ? '{{customText[]}}' : queryParams.token,
-    options: !queryParams.token ? [] : getDropdownOptions(queryParams.token),
-  },
+  initialState,
   reducers: {
     setVeevaToken: (state, action) => {
       state.veevaToken = action.payload
@@ -86,8 +88,7 @@ export const dropdownReducer = createSlice({
       state.veevaToken = buildDropdownToken(state.options)
     },
     addDropdownOption: (state, action) => {
-      // state.options.splice(0, 0, '')
-      state.options.splice(0, 0, {
+      state.options.push({
         value: '',
         error: {},
       })
