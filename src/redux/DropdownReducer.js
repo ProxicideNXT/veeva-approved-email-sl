@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getDropdownOptions, buildDropdownToken } from 'veeva-approved-email-util/lib/tokens/dropdowns'
-import { CATEGORY_TYPES } from 'veeva-approved-email-util/lib/tokens/category'
-import { lint } from 'veeva-approved-email-util/lib/linting/token/user-input'
 import { getURLParams } from '../util/URLParams'
-import { GRADE } from 'veeva-approved-email-util/lib/linting/grading'
+import { setInitialDropdownOptions, setDropdownToken, validateDropdownOption } from '../util/dropdown'
+import { getDropdownOptions } from 'veeva-approved-email-util/lib/tokens/dropdowns';
+import { GRADE } from 'veeva-approved-email-util/lib/linting/grading';
 
 const queryParams = getURLParams(new URL(window.location.href));
 const BLANK_OPTION = {
@@ -12,38 +11,6 @@ const BLANK_OPTION = {
     // grade: '',
     // message: '',
   },
-}
-
-const validateDropdownOption = (dropdownOptionValue) => {
-  return lint({
-    category: CATEGORY_TYPES.USER_INPUT,
-    token: buildDropdownToken([dropdownOptionValue]),
-  })
-}
-
-const setDropdownToken = (optionList) => {
-  const options = []
-  optionList.map((option) => {
-    options.push(option.value)
-  })
-  return buildDropdownToken(options)
-}
-
-const setInitialDropdownOptions = (veevaToken) => {
-  const dropdownOptions = []
-
-  getDropdownOptions(veevaToken).forEach((dropdownOption) => {
-    const log = validateDropdownOption(dropdownOption)
-    dropdownOptions.push({
-      value: dropdownOption,
-      lint: log.grade === GRADE.PASS ? {} : {
-        grade: log.grade,
-        message: log.message,
-      },
-    })
-  })
-
-  return dropdownOptions
 }
 
 const initialState = {
@@ -62,6 +29,26 @@ export const dropdownReducer = createSlice({
       state.options.splice(destination.index, 0, temp)
       state.veevaToken = setDropdownToken(state.options)
     },
+    updateVeevaToken: (state, action) => {
+      // Update Veeva token.
+      state.veevaToken = action.payload
+
+      // Update array of dropdown options.
+      const dropdownOptions = []
+      const tokenOptions = getDropdownOptions(state.veevaToken)
+      tokenOptions.forEach(tokenOption => {
+        const log = validateDropdownOption(tokenOption)
+
+        dropdownOptions.push({
+          value: tokenOption,
+          lint: log.grade === GRADE.PASS ? {} : {
+            grade: log.grade,
+            message: log.message,
+          },
+        })
+      })
+      state.options = dropdownOptions
+    },
     updateDropdownOption: (state, action) => {
       const { index, value } = action.payload
 
@@ -69,7 +56,7 @@ export const dropdownReducer = createSlice({
       const dropdownOption = state.options[index]
       dropdownOption.value = value
       
-      // Validate dropdown option.
+      // Lint dropdown option.
       const results = validateDropdownOption(value)
       dropdownOption.lint = {
         grade: results.grade,
@@ -98,6 +85,7 @@ export const dropdownReducer = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   sortDropdown,
+  updateVeevaToken,
   updateDropdownOption,
   addDropdownOption,
   removeDropdownOption,
