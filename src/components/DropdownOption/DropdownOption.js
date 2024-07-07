@@ -10,8 +10,8 @@ import iconWarning from '../../assets/icon-warning.svg'
 import iconError from '../../assets/icon-error.svg'
 import { GRADE } from 'veeva-approved-email-util/lib/linting/grading'
 
-export const DropdownOption = ({index, veevaToken}) => {
-  const {value, lint} = veevaToken
+export const DropdownOption = ({ index, veevaToken }) => {
+  const { value, lint } = veevaToken
   const { options } = useSelector((state) => state.dropdown)
   const dispatch = useDispatch()
 
@@ -19,7 +19,7 @@ export const DropdownOption = ({index, veevaToken}) => {
    * Disables the "|" character on the keyboard.
    */
   const onKeyPressed = (e) => {
-    if (e.key === "|") e.preventDefault()
+    if (e.key === '|') e.preventDefault()
   }
 
   const onDropdownOptionChanged = (e) => {
@@ -45,39 +45,57 @@ export const DropdownOption = ({index, veevaToken}) => {
           ref={provided.innerRef}
         >
           <div className="col-span-1 absolute top-[50%] mt-[-50px]">
-            <img src={iconSortable} alt="" className="mt-[20px]" width={50} />
+            <img
+              src={iconSortable}
+              alt=""
+              className="mt-[20px] ml-[5px]"
+              width={50}
+            />
           </div>
 
           <div className="col-span-5 pl-[75px]">
             <label
               htmlFor={index}
-              className="mb-[10px] block text-[#CCC] text-lg">
+              className="mb-[10px] block text-[#CCC] text-lg"
+            >
               Dropdown Option {index + 1}:
             </label>
             <textarea
               className="bg-[#303030] min-h-20 p-[5px] w-full text-[#AAA] outline-[#F2613F] placeholder:text-[#AAA]"
-              autoFocus={index === (options.length - 1) }
+              autoFocus={index === options.length - 1}
               id={index}
               name={index}
               placeholder="Dropdown text"
               value={value}
               onKeyDown={onKeyPressed}
-              onChange={onDropdownOptionChanged} />
+              onChange={onDropdownOptionChanged}
+            />
 
-            <section className={(!lint.grade || lint.grade === GRADE.PASS) ? "hidden" : "block"}>
+            <section
+              className={
+                !lint.grade || lint.grade === GRADE.PASS ? 'hidden' : 'block'
+              }
+            >
               <span
-                className={lint.grade === GRADE.WARNING ? "text-[#cf9c66]" : "text-[#CF6679]"}>
-                <img 
+                className={
+                  lint.grade === GRADE.WARNING
+                    ? 'text-[#FF9966]'
+                    : 'text-[#e54141]'
+                }
+              >
+                <img
                   src={lint.grade === GRADE.WARNING ? iconWarning : iconError}
-                  className='inline-block w-[35px]'
-                  alt=''/>
+                  className="inline-block w-[35px] ml-[-5px]"
+                  alt=""
+                />
                 {lint.message}
               </span>
             </section>
 
             <button
               className="underline text-[#008fd2] outline-[#F2613F] mt-[10px]"
-              onClick={onRemoveOption}>
+              onClick={onRemoveOption}
+            >
               Remove option
             </button>
           </div>
