@@ -1,20 +1,29 @@
-# Veeva Approved Email Dropdown Validater
+# [Veeva Approved Email Dropdown Validater](https://veeva-approved-email-dropdown-validater.onrender.com)
 
-Primarily this repo contains the source code for a [website](https://veeva-approved-email-dropdown-validater.onrender.com) that allows users to create and modify Veeva approved email dropdown options. And more importantly validates them to ensure copywriters and designers are following the Veeva guidelines when using dropdowns.
+This website is mainly for people who are new or unfamiliar with [Veeva approved emails](https://www.veeva.com/products/crm-suite/approved-email/) and don't know all the restrictions and limitations with dropdown tokens. Particularly for those with non technical backgrounds.
 
-This project is created with:
+To be more specific, this lets you:
+
+1. build your own dropdown token from a list of options you define
+2. paste in existing tokens to display all the options to the user **making easer to read and review**
+
+## About
+
+This project uses the following:
 
 - [Create React App](https://github.com/facebook/create-react-app)
 - [Redux tookit](https://redux-toolkit.js.org/)
 - [TailWindCSS](https://tailwindcss.com/)
 
-## Installation
+## Development
+
+### Installation
 
 Run `npm i` to install node dependencies.
 
 Afterwards run `npm run start` to start the website on your browser on [http://localhost:3000](http://localhost:3000).
 
-## Deployment
+### Deployment
 
 Requires merging the latest code to the `main` branch. Afterwards the repo will be deployed via [Render](https://render.com/) where it will automatically compile the latest by running `npm run build` and hosting the `build` directory.
 
