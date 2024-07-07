@@ -1,106 +1,95 @@
 import { createSlice } from '@reduxjs/toolkit'
-import vaeUtil from 'veeva-approved-email-util'
+import { getDropdownOptions, buildDropdownToken } from 'veeva-approved-email-util/lib/tokens/dropdowns'
+import { CATEGORY_TYPES } from 'veeva-approved-email-util/lib/tokens/category'
+import { lint } from 'veeva-approved-email-util/lib/linting/token/user-input'
+import { getURLParams } from '../util/URLParams'
+import { GRADE } from 'veeva-approved-email-util/lib/linting/grading'
 
-const validateDropdownOption = (option) => {
-  return vaeUtil.lint.token.input.isValid({
-    type: vaeUtil.lint.token.type.USER_INPUT,
-    value: vaeUtil.buildDropdownToken([option]),
+const queryParams = getURLParams(new URL(window.location.href));
+const BLANK_OPTION = {
+  value: '',
+  lint: {
+    // grade: '',
+    // message: '',
+  },
+}
+
+const validateDropdownOption = (dropdownOptionValue) => {
+  return lint({
+    category: CATEGORY_TYPES.USER_INPUT,
+    token: buildDropdownToken([dropdownOptionValue]),
   })
 }
 
-const buildDropdownToken = (optionList) => {
+const setDropdownToken = (optionList) => {
   const options = []
   optionList.map((option) => {
     options.push(option.value)
   })
-  return vaeUtil.buildDropdownToken(options)
+  return buildDropdownToken(options)
 }
 
-const getDropdownOptions = (veevaToken) => {
+const setInitialDropdownOptions = (veevaToken) => {
   const dropdownOptions = []
 
-  vaeUtil.getDropdownOptions(veevaToken).forEach((dropdownOption) => {
-    const isValid = validateDropdownOption(dropdownOption)
+  getDropdownOptions(veevaToken).forEach((dropdownOption) => {
+    const log = validateDropdownOption(dropdownOption)
     dropdownOptions.push({
       value: dropdownOption,
-      error: isValid !== true ? isValid : {},
+      lint: log.grade === GRADE.PASS ? {} : {
+        grade: log.grade,
+        message: log.message,
+      },
     })
   })
 
   return dropdownOptions
 }
 
-const getURLParams = (url) => {
-  const searchParams = new URLSearchParams(url.search);
-  const params = {};
-
-  for (const [key, value] of searchParams) {
-    params[key] = value;
-  }
-
-  return params;
-}
-
-const queryParams = getURLParams(new URL(window.location.href));
-
 const initialState = {
   veevaToken: !queryParams.token ? '{{customText[]}}' : queryParams.token,
-  options: !queryParams.token ? [] : getDropdownOptions(queryParams.token),
+  options: !queryParams.token ? [BLANK_OPTION] : setInitialDropdownOptions(queryParams.token),
 }
 
 export const dropdownReducer = createSlice({
   name: 'DropdownOptions',
   initialState,
   reducers: {
-    setVeevaToken: (state, action) => {
-      state.veevaToken = action.payload
-
-      if (state.veevaToken === '{{customText[]}}') {
-        state.options = []
-      } else if (
-        state.veevaToken.indexOf('{{customText[') === 0 &&
-        state.veevaToken.substring(state.veevaToken.length - 3) === ']}}'
-      ) {
-        // Check dropdown options....
-        state.options = getDropdownOptions(state.veevaToken)
-      } else {
-        state.options = []
-      }
-    },
     sortDropdown: (state, action) => {
       const { source, destination } = action.payload
       const temp = state.options[source.index]
       state.options.splice(source.index, 1)
       state.options.splice(destination.index, 0, temp)
-      state.veevaToken = buildDropdownToken(state.options)
+      state.veevaToken = setDropdownToken(state.options)
     },
     updateDropdownOption: (state, action) => {
       const { index, value } = action.payload
-      state.options[index].value = value
 
-      const isValid = validateDropdownOption(value)
-      if (isValid !== true) {
-        state.options[index].error = isValid
-      } else {
-        state.options[index].error = {}
+      // Update text area form input.
+      const dropdownOption = state.options[index]
+      dropdownOption.value = value
+      
+      // Validate dropdown option.
+      const results = validateDropdownOption(value)
+      dropdownOption.lint = {
+        grade: results.grade,
+        message: results.message,
       }
 
-      state.veevaToken = buildDropdownToken(state.options)
+      // Build Veeva dropdown token.
+      state.veevaToken = setDropdownToken(state.options)
     },
     addDropdownOption: (state, action) => {
-      state.options.push({
-        value: '',
-        error: {},
-      })
-      state.veevaToken = buildDropdownToken(state.options)
+      state.options.push(BLANK_OPTION)
+      state.veevaToken = setDropdownToken(state.options)
     },
     removeDropdownOption: (state, action) => {
       state.options.splice(action.payload, 1)
 
       if (state.options.length > 0) {
-        state.veevaToken = buildDropdownToken(state.options)
+        state.veevaToken = setDropdownToken(state.options)
       } else {
-        state.veevaToken = '{{customText[]}}'
+        state.veevaToken = ''
       }
     },
   },
@@ -108,7 +97,6 @@ export const dropdownReducer = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  setVeevaToken,
   sortDropdown,
   updateDropdownOption,
   addDropdownOption,
