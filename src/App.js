@@ -53,7 +53,7 @@ function App() {
         </section>
       </main>
 
-      <div className="md:grid md:grid-cols-2 mt-[20px] md:mt-[45px] md:mb-[70px]">
+      <div className="md:grid md:grid-cols-2 mt-[20px] md:mt-[45px] md:mb-[20px]">
         <section className="hidden md:block md:col-span-1 mb-[20px] md:mb-[0] pl-[20px] pr-[20px] md:pr-[10px]">
           <AddOptionBtn />
         </section>
