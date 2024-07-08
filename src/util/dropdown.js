@@ -1,7 +1,23 @@
-const { getDropdownOptions, buildDropdownToken } = require('veeva-approved-email-util/lib/tokens/dropdowns')
-const { CATEGORY_TYPES } = require('veeva-approved-email-util/lib/tokens/category')
-const { lint } = require('veeva-approved-email-util/lib/linting/token/user-input')
+const {
+  getDropdownOptions,
+  buildDropdownToken,
+} = require('veeva-approved-email-util/lib/tokens/dropdowns')
+const {
+  CATEGORY_TYPES,
+  isTokenUserInputCategory,
+} = require('veeva-approved-email-util/lib/tokens/category')
+const {
+  lint,
+} = require('veeva-approved-email-util/lib/linting/token/user-input')
 const { GRADE } = require('veeva-approved-email-util/lib/linting/grading')
+
+const isValidDropdownToken = (veevaToken) => {
+  if (isTokenUserInputCategory(veevaToken)) {
+    return true
+  } else {
+    return false
+  }
+}
 
 const validateDropdownOption = (dropdownOptionValue) => {
   return lint({
@@ -25,10 +41,13 @@ const setInitialDropdownOptions = (veevaToken) => {
     const log = validateDropdownOption(dropdownOption)
     dropdownOptions.push({
       value: dropdownOption,
-      lint: log.grade === GRADE.PASS ? {} : {
-        grade: log.grade,
-        message: log.message,
-      },
+      lint:
+        log.grade === GRADE.PASS
+          ? {}
+          : {
+              grade: log.grade,
+              message: log.message,
+            },
     })
   })
 
@@ -36,6 +55,7 @@ const setInitialDropdownOptions = (veevaToken) => {
 }
 
 module.exports = {
+  isValidDropdownToken,
   validateDropdownOption,
   setDropdownToken,
   setInitialDropdownOptions,

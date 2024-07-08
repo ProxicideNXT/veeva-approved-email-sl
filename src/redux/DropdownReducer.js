@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getURLParams } from '../util/URLParams'
-import { setInitialDropdownOptions, setDropdownToken, validateDropdownOption } from '../util/dropdown'
-import { getDropdownOptions } from 'veeva-approved-email-util/lib/tokens/dropdowns';
-import { GRADE } from 'veeva-approved-email-util/lib/linting/grading';
+import {
+  setInitialDropdownOptions,
+  setDropdownToken,
+  validateDropdownOption,
+  isValidDropdownToken,
+} from '../util/dropdown'
+import { getDropdownOptions } from 'veeva-approved-email-util/lib/tokens/dropdowns'
+import { GRADE } from 'veeva-approved-email-util/lib/linting/grading'
 
-const queryParams = getURLParams(new URL(window.location.href));
+const initialState = {}
+const DEFAULT_VEEVA_TOKEN = '{{customText[]}}'
 const BLANK_OPTION = {
   value: '',
   lint: {
@@ -12,10 +18,24 @@ const BLANK_OPTION = {
     // message: '',
   },
 }
+const queryParams = getURLParams(new URL(window.location.href))
 
-const initialState = {
-  veevaToken: !queryParams.token ? '{{customText[]}}' : queryParams.token,
-  options: !queryParams.token ? [BLANK_OPTION] : setInitialDropdownOptions(queryParams.token),
+// No URL parameter is defined.
+if (!queryParams.token) {
+  initialState.veevaToken = DEFAULT_VEEVA_TOKEN
+  initialState.options = [BLANK_OPTION]
+}
+
+// URL parameter is defined.
+else if (isValidDropdownToken(queryParams.token)) {
+  initialState.veevaToken = queryParams.token
+  initialState.options = setInitialDropdownOptions(queryParams.token)
+}
+
+// URL parameter contains the wrong syntax.
+else {
+  initialState.veevaToken = queryParams.token
+  initialState.options = []
 }
 
 export const dropdownReducer = createSlice({
@@ -33,21 +53,32 @@ export const dropdownReducer = createSlice({
       // Update Veeva token.
       state.veevaToken = action.payload
 
-      // Update array of dropdown options.
-      const dropdownOptions = []
-      const tokenOptions = getDropdownOptions(state.veevaToken)
-      tokenOptions.forEach(tokenOption => {
-        const log = validateDropdownOption(tokenOption)
+      // Valid syntax.
+      if (
+        state.veevaToken.indexOf('{{customText[') === 0 &&
+        state.veevaToken.substring(state.veevaToken.length - 3) === ']}}'
+      ) {
+        // Update array of dropdown options.
+        const dropdownOptions = []
+        const tokenOptions = getDropdownOptions(state.veevaToken)
+        tokenOptions.forEach((tokenOption) => {
+          const log = validateDropdownOption(tokenOption)
 
-        dropdownOptions.push({
-          value: tokenOption,
-          lint: log.grade === GRADE.PASS ? {} : {
-            grade: log.grade,
-            message: log.message,
-          },
+          dropdownOptions.push({
+            value: tokenOption,
+            lint:
+              log.grade === GRADE.PASS
+                ? {}
+                : {
+                    grade: log.grade,
+                    message: log.message,
+                  },
+          })
         })
-      })
-      state.options = dropdownOptions
+        state.options = dropdownOptions
+      } else {
+        state.options = []
+      }
     },
     updateDropdownOption: (state, action) => {
       const { index, value } = action.payload
@@ -55,7 +86,7 @@ export const dropdownReducer = createSlice({
       // Update text area form input.
       const dropdownOption = state.options[index]
       dropdownOption.value = value
-      
+
       // Lint dropdown option.
       const results = validateDropdownOption(value)
       dropdownOption.lint = {
