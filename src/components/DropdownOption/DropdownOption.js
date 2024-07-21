@@ -16,10 +16,18 @@ export const DropdownOption = ({ index, veevaToken }) => {
   const dispatch = useDispatch()
 
   /**
-   * Disables the "|" character on the keyboard.
+   * Disables special characters reserved for the Veeva dropdown tokens.
    */
   const onKeyPressed = (e) => {
-    if (e.key === '|') e.preventDefault()
+    if (
+      e.key === '|' ||
+      e.key === '{' ||
+      e.key === '}' ||
+      e.key === '[' ||
+      e.key === ']'
+    ) {
+      e.preventDefault()
+    }
   }
 
   const onDropdownOptionChanged = (e) => {
