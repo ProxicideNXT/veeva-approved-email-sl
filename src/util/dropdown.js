@@ -12,7 +12,14 @@ const {
 const { GRADE } = require('veeva-approved-email-util/lib/linting/grading')
 
 const isValidDropdownToken = (veevaToken) => {
-  if (isTokenUserInputCategory(veevaToken)) {
+  const tokenStart = veevaToken.substring(0, 2)
+  const tokenEnd = veevaToken.split('').reverse().join('').substring(0, 3)
+
+  if (
+    tokenStart === '{{' &&
+    tokenEnd === '}}]' &&
+    isTokenUserInputCategory(veevaToken)
+  ) {
     return true
   } else {
     return false
