@@ -56,7 +56,8 @@ export const dropdownReducer = createSlice({
       // Valid syntax.
       if (
         state.veevaToken.indexOf('{{customText[') === 0 &&
-        state.veevaToken.substring(state.veevaToken.length - 3) === ']}}'
+        state.veevaToken.substring(state.veevaToken.length - 3) === ']}}' &&
+        state.veevaToken.match(/{{customText/g).length === 1
       ) {
         // Update array of dropdown options.
         const dropdownOptions = []
