@@ -5,6 +5,7 @@ import {
   updateDropdownOption,
   removeDropdownOption,
 } from '../../redux/DropdownReducer'
+import iconClose from '../../assets/icon-close.svg'
 import iconSortable from '../../assets/icon-sort.svg'
 import iconWarning from '../../assets/icon-warning.svg'
 import iconError from '../../assets/icon-error.svg'
@@ -47,43 +48,56 @@ export const DropdownOption = ({ index, veevaToken }) => {
     <Draggable draggableId={index.toString()} index={index}>
       {(provided) => (
         <div
-          className="relative rounded-md bg-[#0C0C0C]	border-[1px] border-[#3f3f3f] border-solid p-[15px] mb-[20px] last:mb-[0px]"
+          className="relative rounded-md bg-[#0C0C0C]	border-[1px] border-[#3f3f3f] border-solid py-[15px] px-[15px] mb-[20px] last:mb-[0px]"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <div className="col-span-1 absolute top-[50%] mt-[-50px]">
+          <label htmlFor={index} className="mb-[10px] block text-[#CCC]">
+            Dropdown Option <span className="text-[#fa9739]">{index + 1}</span>:
+          </label>
+
+          <button
+            className="absolute top-[15px] right-[15px] text-white"
+            onClick={onRemoveOption}
+          >
+            <img src={iconClose} width={20} alt="" />
+          </button>
+
+          <section className="relative pl-[50px]">
             <img
               src={iconSortable}
               alt=""
-              className="mt-[20px] ml-[5px]"
-              width={50}
+              className="absolute left-[2px] top-[50%] mt-[-18px]"
+              width={30}
             />
-          </div>
 
-          <div className="col-span-5 pl-[75px]">
-            <label
-              htmlFor={index}
-              className="mb-[10px] block text-[#CCC] text-lg"
-            >
-              Dropdown Option {index + 1}:
-            </label>
             <textarea
-              className="bg-[#303030] min-h-20 p-[5px] w-full text-[#AAA] outline-[#F2613F] placeholder:text-[#AAA]"
+              className="bg-[#303030] p-[5px] w-full text-[#AAA] outline-[#F2613F] placeholder:text-[#AAA]"
               autoFocus={index === options.length - 1}
               id={index}
               name={index}
               placeholder="Dropdown text"
               value={value}
+              rows={1}
               onKeyDown={onKeyPressed}
               onChange={onDropdownOptionChanged}
             />
+          </section>
 
-            <section
-              className={
-                !lint.grade || lint.grade === GRADE.PASS ? 'hidden' : 'block'
-              }
-            >
+          <section
+            className={
+              !lint.grade || lint.grade === GRADE.PASS
+                ? 'hidden'
+                : 'block relative text-sm'
+            }
+          >
+            <div className="relative pt-[7px] pl-[50px]">
+              <img
+                src={lint.grade === GRADE.WARNING ? iconWarning : iconError}
+                className="absolute top-0 left-0 w-[35px]"
+                alt=""
+              />
               <span
                 className={
                   lint.grade === GRADE.WARNING
@@ -91,22 +105,10 @@ export const DropdownOption = ({ index, veevaToken }) => {
                     : 'text-[#e54141]'
                 }
               >
-                <img
-                  src={lint.grade === GRADE.WARNING ? iconWarning : iconError}
-                  className="inline-block w-[35px] ml-[-5px]"
-                  alt=""
-                />
                 {lint.message}
               </span>
-            </section>
-
-            <button
-              className="underline text-[#008fd2] outline-[#F2613F] mt-[10px]"
-              onClick={onRemoveOption}
-            >
-              Remove option
-            </button>
-          </div>
+            </div>
+          </section>
         </div>
       )}
     </Draggable>
