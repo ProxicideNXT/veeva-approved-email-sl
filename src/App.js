@@ -15,7 +15,9 @@ function App() {
     <>
       <header className="bg-[#111] w-full p-[15px] md:px-0 mb-[20px] mb-[40px]">
         <div className="sm:w-full lg:w-5/6 lg:mx-auto">
-          <h1 className="text-[#fa9739] text-lg">Dropdown</h1>
+          <h1 className="text-[#fa9739] text-[1.5rem] font-[Barlow]">
+            Dropdown
+          </h1>
         </div>
       </header>
 
@@ -66,7 +68,7 @@ function App() {
         </div>
       </main>
 
-      <footer className="text-[#888888] row-end-2">
+      <footer className="text-[#888888] row-end-2 px-[15px] sm:px-0 py-[15px]">
         <div className="sm:w-full lg:w-5/6 lg:mx-auto">
           <a
             className="text-[#008fd2] underline"

@@ -89,7 +89,7 @@ export const DropdownOption = ({ index, veevaToken }) => {
             className={
               !lint.grade || lint.grade === GRADE.PASS
                 ? 'hidden'
-                : 'block relative text-sm'
+                : 'block relative text-sm mt-[15px]'
             }
           >
             <div className="relative pt-[7px] pl-[50px]">
