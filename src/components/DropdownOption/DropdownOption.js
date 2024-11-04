@@ -48,7 +48,7 @@ export const DropdownOption = ({ index, veevaToken }) => {
     <Draggable draggableId={index.toString()} index={index}>
       {(provided) => (
         <div
-          className="relative rounded-md bg-[#0C0C0C]	border-[1px] border-[#3f3f3f] border-solid py-[15px] px-[15px] mb-[20px] last:mb-[0px]"
+          className={`relative rounded-md bg-[#0C0C0C] p-[15px] mb-[20px] last:mb-[0px] border-solid border-${lint.grade === GRADE.ERROR ? '[2px]' : '[1px]'} border-${lint.grade === GRADE.ERROR ? '[#E63946]' : '[#3f3f3f]'}`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -101,8 +101,8 @@ export const DropdownOption = ({ index, veevaToken }) => {
               <span
                 className={
                   lint.grade === GRADE.WARNING
-                    ? 'text-[#FF9966]'
-                    : 'text-[#e54141]'
+                    ? 'text-[#F4A261]'
+                    : 'text-[#E63946]'
                 }
               >
                 {lint.message}

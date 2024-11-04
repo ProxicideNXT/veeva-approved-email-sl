@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      <header className="bg-[#111] w-full p-[15px] md:px-0 mb-[20px] mb-[40px]">
+      <header className="bg-[#111] w-full p-[15px] md:px-0 mb-[20px] mb-[px]">
         <div className="sm:w-full lg:w-5/6 lg:mx-auto">
           <h1 className="text-[#fa9739] text-[1.5rem] font-[Barlow]">
             Dropdown
@@ -22,10 +22,10 @@ function App() {
       </header>
 
       <main className="sm:w-full lg:w-5/6 lg:mx-auto px-[15px] md:px-0">
-        <div className="md:grid md:grid-cols-2">
+        <div className="md:grid md:grid-cols-2 md:grid-rows-1">
           <section className="md:col-span-1 mb-[20px] md:mb-[0] md:pr-[10px] md:pr-[10px]">
             <div
-              className={`bg-[#0C0C0C] text-[#e54141] h-full p-[15px] ${!isValid ? 'block' : 'hidden'}`}
+              className={`bg-[#0C0C0C] text-[#E63946] h-full p-[15px] ${!isValid ? 'block' : 'hidden'}`}
             >
               <p className="mb-[10px]">
                 Syntax Error: <br />
@@ -55,23 +55,18 @@ function App() {
 
           <section className="md:col-span-1 pl-[0px] pr-[0px] md:pl-[10px]">
             <VeevaToken />
-          </section>
-        </div>
-
-        <div className="md:grid md:grid-cols-2 mt-[20px] md:mt-[45px] md:mb-[20px]">
-          <section className="hidden md:block md:col-span-1 mb-[20px] md:mb-[0] pl-[0px] pr-[20px] md:pr-[10px]"></section>
-
-          <section className="md:col-span-1 md:pl-[10px] md:text-right">
-            <CopyTokenBtn />
-            <ShareTokenBtn />
+            <div className="text-right">
+              <CopyTokenBtn />
+              <ShareTokenBtn />
+            </div>
           </section>
         </div>
       </main>
 
-      <footer className="text-[#888888] row-end-2 px-[15px] sm:px-0 py-[15px]">
+      <footer className="text-[#888888] px-[15px] sm:px-0 py-[15px]">
         <div className="sm:w-full lg:w-5/6 lg:mx-auto">
           <a
-            className="text-[#008fd2] underline"
+            className="text-[#39B2FA] underline"
             href="https://github.com/Pr0xicide/veeva-approved-email-dropdown-validater"
           >
             View source code on GitHub

@@ -102,6 +102,9 @@ export const dropdownReducer = createSlice({
       state.veevaToken = setDropdownToken(state.options)
     },
     removeDropdownOption: (state, action) => {
+      // At least one dropdown option needs to be active.
+      if (state.options.length === 1) return
+
       state.options.splice(action.payload, 1)
 
       if (state.options.length > 0) {

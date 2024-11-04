@@ -18,11 +18,11 @@ export const DropdownList = () => {
       <Droppable droppableId="SL">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
+            <h2 className="text-[#F5F5F5] text-[1.25rem] font-[Barlow] mb-[10px]">
+              Dropdown Options
+            </h2>
             {options.map((option, index) => (
-              <DropdownOption
-                key={index}
-                index={index}
-                veevaToken={option} />
+              <DropdownOption key={index} index={index} veevaToken={option} />
             ))}
             {provided.placeholder}
           </div>
