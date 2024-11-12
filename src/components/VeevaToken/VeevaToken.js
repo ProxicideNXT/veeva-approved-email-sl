@@ -13,7 +13,7 @@ export const VeevaToken = (props) => {
   return (
     <>
       <h2 className="text-[#F5F5F5] text-[1.25rem] font-[Barlow] mb-[10px]">
-        Veeva Token
+        HTML Veeva Token
       </h2>
 
       <textarea
