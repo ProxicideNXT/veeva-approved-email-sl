@@ -17,17 +17,22 @@ export const PageHome = () => {
       <div className="md:grid md:grid-cols-2 md:grid-rows-1">
         <section className="md:col-span-1 mb-[20px] md:mb-[0] md:pr-[10px] md:pr-[10px]">
           <div
-            className={`bg-[#0C0C0C] text-[#E63946] h-full p-[15px] ${!isValid ? 'block' : 'hidden'}`}
+            className={`text-[#CCC] h-full ${!isValid ? 'block' : 'hidden'}`}
           >
+            <h2 className="text-[#E63946] text-[1.25rem] font-[Barlow] mb-[10px]">
+              Veeva Token Syntax Error
+            </h2>
             <p className="mb-[10px]">
-              Syntax Error: <br />
-              Invalid dropdown token, expecting the following syntax{' '}
-              {'{{customText[]}}'}
+              Invalid Veeva dropdown token syntax defined, expecting the
+              following syntax:
+              <code className="block bg-[#0C0C0C] p-[15px] mt-[5px]">
+                {'{{customText[option 1|option 2]}}'}
+              </code>
             </p>
             <p>
               Refer to the{' '}
               <a
-                className="underline"
+                className="underline text-[#39B2FA]"
                 href="https://crmhelp.veeva.com/doc/Content/CRM_topics/Multichannel/ApprovedEmail/ManageCreateContent/CreatingContent/ConfigTokens.htm#Picklist"
                 target="blank"
               >
