@@ -22,7 +22,7 @@ export const CopyTokenBtn = () => {
 
   return (
     <button
-      className={`bg-[#F2613F] transition-colors duration-200 ease-in rounded-l-md inline-block text-white py-[12px] px-[25px] min-w-[150px] ${+isValid ? 'hover:bg-[#008fd2]' : 'opacity-25'}`}
+      className={`bg-[#39B2FA] transition-colors duration-200 ease-in rounded-l-md inline-block text-white py-[12px] px-[25px] min-w-[150px] ${+isValid ? 'hover:bg-[#2A8EC1]' : 'opacity-25'}`}
       disabled={!isValid}
       onClick={onCopyClicked}
     >
