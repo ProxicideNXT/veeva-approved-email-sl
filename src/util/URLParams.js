@@ -1,18 +1,18 @@
 /**
  * Gets all URL parameters.
- * 
+ *
  * @param {String} url current website url
- * @returns {object} object containing the key and values for each URL parameter 
+ * @returns {object} object containing the key and values for each URL parameter
  */
 const getURLParams = (url) => {
-  const searchParams = new URLSearchParams(url.search);
-  const params = {};
-  
+  const searchParams = new URLSearchParams(url.search)
+  const params = {}
+
   for (const [key, value] of searchParams) {
-    params[key] = value;
+    params[decodeURIComponent(key)] = decodeURIComponent(value)
   }
-  
-  return params;
+
+  return params
 }
 
 module.exports = {

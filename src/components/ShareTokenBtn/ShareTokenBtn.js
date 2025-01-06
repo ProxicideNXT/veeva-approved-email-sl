@@ -14,7 +14,7 @@ export const ShareTokenBtn = () => {
   const onShareClicked = (e) => {
     setButtonText(ACTIVE_BTN_TEXT)
     navigator.clipboard.writeText(
-      `${window.location.protocol}//${window.location.host}?token=${veevaToken}`
+      `${window.location.protocol}//${window.location.host}?token=${encodeURIComponent(veevaToken)}`
     )
 
     setTimeout(() => {
