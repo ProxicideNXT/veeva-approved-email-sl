@@ -26,7 +26,7 @@ export const VeevaToken = (props) => {
       />
 
       <section className="text-[#CCC] md:text-right my-[20px]">
-        Token character count:
+        Token character count:&nbsp;
         <span className="text-[#fa9739]">{veevaToken.length}</span>
       </section>
     </>
